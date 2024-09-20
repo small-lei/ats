@@ -17,8 +17,8 @@ func CheckActUserSender(actId int32, phone string) (*repo.Messages, error) {
 	return &row, nil
 }
 
-func InsertMessage(msg *repo.Messages) error {
-	err := dbConn.Table(repo.Messages{}.TableName()).Create(msg).Error
+func InsertMessage(msg repo.Messages) error {
+	err := dbConn.Table(repo.Messages{}.TableName()).Create(&msg).Error
 	if err != nil {
 		return err
 	}

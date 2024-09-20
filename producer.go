@@ -1,6 +1,7 @@
 package main
 
 import (
+	cfs "ats/config"
 	"encoding/csv"
 	"fmt"
 	"github.com/IBM/sarama"
@@ -31,7 +32,7 @@ func readCSV(filePath string) ([][]string, error) {
 func main() {
 	config := sarama.NewConfig()
 	config.Producer.Return.Successes = true
-	producer, err := sarama.NewSyncProducer([]string{brokerList}, config)
+	producer, err := sarama.NewSyncProducer([]string{cfs.BrokerList}, config)
 	if err != nil {
 		log.Fatalf("Failed to start Kafka producer: %v", err)
 	}
@@ -69,7 +70,7 @@ func main() {
 				continue
 			}
 			msg := &sarama.ProducerMessage{
-				Topic: topic,
+				Topic: cfs.Topic,
 				Value: sarama.StringEncoder(fmt.Sprintf("%s|%s|%s", activityID, phone, message)),
 			}
 
