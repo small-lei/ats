@@ -16,7 +16,6 @@ import (
 const (
 	brokerList = "localhost:9092"
 	topic      = "message_topic"
-	dbDSN      = "user:password@tcp(localhost:3306)/dbname"
 )
 
 func readCSV(filePath string) ([][]string, error) {
