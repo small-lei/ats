@@ -13,5 +13,5 @@ type Messages struct {
 
 // TableName 表名称
 func (Messages) TableName() string {
-	return "Messages"
+	return "messages"
 }

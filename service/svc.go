@@ -12,7 +12,7 @@ import (
 var dbConn *gorm.DB
 
 func InitCon() {
-	dbConn = NewGorm("user:password@tcp(localhost:3306)/dbname", "off")
+	dbConn = NewGorm("root:root_password@tcp(localhost:3306)/my_database", "off")
 }
 
 func NewGorm(sourceUrl, logSwitch string) *gorm.DB {
