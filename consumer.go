@@ -62,7 +62,7 @@ func simulateSendMessage(data string) {
 		Phone:      phone,
 		Message:    message,
 		Status:     ret,
-		SendTime:   time.Now(),
+		SendTime:   time.Now().Format(time.DateTime),
 	}
 	err := service.InsertMessage(msg)
 	fmt.Println("err: ", err)

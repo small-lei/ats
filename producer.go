@@ -7,6 +7,8 @@ import (
 	"github.com/IBM/sarama"
 	"log"
 	"os"
+	"sort"
+	"strings"
 	"time"
 
 	"ats/service"
@@ -50,10 +52,16 @@ func main() {
 		log.Fatalf("Failed to read recipients CSV: %v", err)
 	}
 
-	for _, activity := range activities[1:] {
+	ats := activities[1:]
+
+	//调度时间降升序排序
+	sort.Slice(ats, func(i, j int) bool {
+		return ats[i][3] < ats[j][3]
+	})
+	for _, activity := range ats {
 		activityID := gconv.Int32(activity[0])
-		template := activity[1]
-		scheduledTime, _ := time.Parse(time.RFC3339, activity[2])
+		template := activity[2]
+		scheduledTime, _ := time.Parse(time.DateTime, activity[3])
 		// 计算延迟时间
 		delay := time.Until(scheduledTime)
 		if delay > 0 {
@@ -63,6 +71,7 @@ func main() {
 		for _, recipient := range recipients[1:] {
 			phone := recipient[0]
 			name := recipient[1]
+			template = strings.ReplaceAll(template, "{%s}", "%s")
 			message := fmt.Sprintf(template, name)
 			//检查活动用户是否发送
 			senderFlag, _ := service.CheckActUserSender(activityID, phone)
@@ -71,7 +80,7 @@ func main() {
 			}
 			msg := &sarama.ProducerMessage{
 				Topic: cfs.Topic,
-				Value: sarama.StringEncoder(fmt.Sprintf("%s|%s|%s", activityID, phone, message)),
+				Value: sarama.StringEncoder(fmt.Sprintf("%v|%s|%s", activityID, phone, message)),
 			}
 
 			_, _, err := producer.SendMessage(msg)

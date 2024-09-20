@@ -1,2 +1,3 @@
-id,csv_path,teamplate
-1,http://www.baic.om,¹þ¹þ¹þ
+id,csv_path,teamplate,scheduled_time
+4,http://www.baic.om,send to user {%s},2024-09-20 08:19:32
+3,http://www.baic.om,send to user {%s},2024-09-19 08:19:32
