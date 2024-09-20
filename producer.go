@@ -77,10 +77,6 @@ func main() {
 			if err != nil {
 				log.Printf("Failed to send message to Kafka: %v", err)
 			}
-
-			if scheduledTime.After(time.Now()) {
-				time.Sleep(time.Until(scheduledTime))
-			}
 		}
 	}
 }
